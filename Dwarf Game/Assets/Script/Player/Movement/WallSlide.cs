@@ -6,7 +6,10 @@ public class WallSlide : MonoBehaviour
 {
     private Movement movement;
 
-    private LayerMask slidable;
+    private Transform leftWallCheck;
+    private Transform rightWallCheck;
+
+    [SerializeField] private LayerMask wall;
 
     private bool wallLeft;
     private bool wallRight;
@@ -18,52 +21,27 @@ public class WallSlide : MonoBehaviour
     void Start()
     {
         movement = GetComponent<Movement>();
-        
-        wallLeft = false;
-        wallRight = false;
+        leftWallCheck = GameObject.Find("LeftWallCheck").GetComponent<Transform>();
+        rightWallCheck = GameObject.Find("RightWallCheck").GetComponent<Transform>();
     }
 
     void Update()
     {
-        if (movement.wallSlide)
-        {
-            if (Physics2D.Raycast(transform.position, Vector2.left, 0.1f, slidable))
-            {
-                wallLeft = true;
-            }
-            else if (Physics2D.Raycast(transform.position, Vector2.right, 0.1f, slidable))
-            {
-                wallRight = true;
-            }
+        DetectWall();
 
-            if (wallLeft || wallRight)
+        if (sliding)
+        {
+            if (Input.GetKeyDown(movement.jump))
             {
-                if (!movement.isGrounded)
+                if (wallLeft)
                 {
-                    StartWallSlide();
-                }
-                else
-                {
+                    movement.rb.AddForce(Vector2.up + Vector2.right * wallJumpForce, ForceMode2D.Impulse);
                     EndWallSLide();
                 }
-            }
-            else
-            {
-                EndWallSLide();
-            }
-
-            if (sliding)
-            {
-                if (Input.GetKeyDown(movement.jump))
+                else if (wallRight)
                 {
-                    if (wallLeft)
-                    {
-                        movement.rb.AddForce(Vector2.up + Vector2.right * wallJumpForce, ForceMode2D.Impulse);
-                    }
-                    else if (wallRight)
-                    {
-                        movement.rb.AddForce(Vector2.up + Vector2.left * wallJumpForce, ForceMode2D.Impulse);
-                    }
+                    movement.rb.AddForce(Vector2.up + Vector2.left * wallJumpForce, ForceMode2D.Impulse);
+                    EndWallSLide();
                 }
             }
         }
@@ -79,5 +57,33 @@ public class WallSlide : MonoBehaviour
     {
         movement.rb.gravityScale = 1;
         sliding = false;
+    }
+
+    void DetectWall()
+    {
+        if (Physics2D.Raycast(leftWallCheck.position, Vector2.left, 0.1f, wall))
+        {
+            wallLeft = true;
+        }
+        else if (Physics2D.Raycast(rightWallCheck.position, Vector2.right, 0.1f, wall))
+        {
+            wallRight = true;
+        }
+
+        if (wallLeft || wallRight)
+        {
+            if (!movement.isGrounded)
+            {
+                StartWallSlide();
+            }
+            else
+            {
+                EndWallSLide();
+            }
+        }
+        else
+        {
+            EndWallSLide();
+        }
     }
 }

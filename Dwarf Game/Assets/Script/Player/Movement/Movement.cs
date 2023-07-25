@@ -69,6 +69,7 @@ public class Movement : MonoBehaviour
             }
             else if (Input.GetKeyDown(jump) && !isGrounded && !hasJumped)
             {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 hasJumped = true;
             }
@@ -79,6 +80,11 @@ public class Movement : MonoBehaviour
             {
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
+        }
+
+        if (isGrounded)
+        {
+            hasJumped = false;
         }
     }
 }
