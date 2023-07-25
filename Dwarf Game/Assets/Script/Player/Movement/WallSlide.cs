@@ -9,12 +9,16 @@ public class WallSlide : MonoBehaviour
     private Transform leftWallCheck;
     private Transform rightWallCheck;
 
-    [SerializeField] private LayerMask wall;
+    [SerializeField] private float slideGrav = 0.3f;
+    [SerializeField] private LayerMask wallLayer;
 
     private bool wallLeft;
     private bool wallRight;
 
-    private bool sliding;
+    private bool slidingOnLeft;
+    private bool slidingOnRight;
+
+    private bool hasStarted;
 
     private float wallJumpForce = 2;
     
@@ -28,62 +32,72 @@ public class WallSlide : MonoBehaviour
     void Update()
     {
         DetectWall();
-
-        if (sliding)
-        {
-            if (Input.GetKeyDown(movement.jump))
-            {
-                if (wallLeft)
-                {
-                    movement.rb.AddForce(Vector2.up + Vector2.right * wallJumpForce, ForceMode2D.Impulse);
-                    EndWallSLide();
-                }
-                else if (wallRight)
-                {
-                    movement.rb.AddForce(Vector2.up + Vector2.left * wallJumpForce, ForceMode2D.Impulse);
-                    EndWallSLide();
-                }
-            }
-        }
-    }
-    
-    void StartWallSlide()
-    {
-        movement.rb.gravityScale = 0.3f;
-        sliding = true;
-    }
-
-    void EndWallSLide()
-    {
-        movement.rb.gravityScale = 1;
-        sliding = false;
+        ManageWallRun();
     }
 
     void DetectWall()
     {
-        if (Physics2D.Raycast(leftWallCheck.position, Vector2.left, 0.1f, wall))
+        if (Physics2D.Raycast(leftWallCheck.position, Vector2.left, 0.1f, wallLayer))
         {
             wallLeft = true;
         }
-        else if (Physics2D.Raycast(rightWallCheck.position, Vector2.right, 0.1f, wall))
+        else if (Physics2D.Raycast(rightWallCheck.position, Vector2.right, 0.1f, wallLayer))
         {
             wallRight = true;
         }
-
-        if (wallLeft || wallRight)
+        else
         {
-            if (!movement.isGrounded)
+            wallLeft = false;
+            wallRight = false;
+        }
+    }
+    void ManageWallRun()
+    {
+        if (!movement.isGrounded)
+        {
+            if (wallLeft)
             {
-                StartWallSlide();
+                StartSlide(false);
+            }
+            else if (wallRight)
+            {
+                StartSlide(true);
             }
             else
             {
-                EndWallSLide();
+                EndSlide();
             }
         }
         else
         {
-            EndWallSLide();
+            EndSlide();
         }
+    }
+    void StartSlide(bool right)
+    {
+        if (!hasStarted)
+        {
+            movement.rb.velocity = new Vector2(movement.rb.velocity.x, 0);
+            hasStarted = true;
+        }
+        
+        movement.rb.gravityScale = slideGrav;
+        
+        if (right)
+        {
+            slidingOnRight = true;
+        }
+        else
+        {
+            slidingOnLeft = true;
+        }
+    }
+    void EndSlide()
+    {
+        movement.rb.gravityScale = 1;
+        
+        slidingOnRight = false;
+        slidingOnLeft = false;
+        hasStarted = false;
     }
 }
