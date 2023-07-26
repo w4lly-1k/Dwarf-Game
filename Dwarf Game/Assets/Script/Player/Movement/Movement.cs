@@ -16,7 +16,7 @@ public class Movement : MonoBehaviour
     [SerializeField] public KeyCode jump = KeyCode.Space;
 
     [Header("Layers")]
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask playerLayer;
 
     [Header("Abilities")]
     [SerializeField] public bool doubleJump;
@@ -37,7 +37,7 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.1f, groundLayer);
+        isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.1f, ~playerLayer);
         
         MovePlayer();
         Jump();

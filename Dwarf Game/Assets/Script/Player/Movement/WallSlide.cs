@@ -26,7 +26,7 @@ public class WallSlide : MonoBehaviour
 
     private bool hasStarted;
 
-    private float wallJumpForce = 8;
+    private float wallJumpForce = 11;
     
     void Start()
     {
