@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class WallSlide : MonoBehaviour
 {
+    //DON'T TOUCH, IT WORKS
+    
     private Movement movement;
 
     private Transform leftWallCheck;
     private Transform rightWallCheck;
+
+    [SerializeField] private Vector2 wallJumpDirection;
 
     [SerializeField] private float slideGrav = 0.3f;
     [SerializeField] private LayerMask wallLayer;
@@ -17,10 +21,12 @@ public class WallSlide : MonoBehaviour
 
     private bool slidingOnLeft;
     private bool slidingOnRight;
+    private bool sliding;
+    [HideInInspector] public bool slideJumping;
 
     private bool hasStarted;
 
-    private float wallJumpForce = 2;
+    [SerializeField] private float wallJumpForce = 2;
     
     void Start()
     {
@@ -32,7 +38,9 @@ public class WallSlide : MonoBehaviour
     void Update()
     {
         DetectWall();
-        ManageWallRun();
+        ManageWallSlide();
+        SlideJump();
+        ManageBools();
     }
 
     void DetectWall()
@@ -51,15 +59,15 @@ public class WallSlide : MonoBehaviour
             wallRight = false;
         }
     }
-    void ManageWallRun()
+    void ManageWallSlide()
     {
         if (!movement.isGrounded)
         {
-            if (wallLeft)
+            if (wallLeft && Input.GetKey(movement.left))
             {
                 StartSlide(false);
             }
-            else if (wallRight)
+            else if (wallRight && Input.GetKey(movement.right))
             {
                 StartSlide(true);
             }
@@ -80,7 +88,9 @@ public class WallSlide : MonoBehaviour
             movement.rb.velocity = new Vector2(movement.rb.velocity.x, 0);
             hasStarted = true;
         }
-        
+
+        sliding = true;
+        slideJumping = true;
         movement.rb.gravityScale = slideGrav;
         
         if (right)
@@ -98,6 +108,42 @@ public class WallSlide : MonoBehaviour
         
         slidingOnRight = false;
         slidingOnLeft = false;
+        sliding = false;
         hasStarted = false;
+    }
+    void SlideJump()
+    {
+        if (sliding)
+        {
+            if (Input.GetKeyDown(movement.jump))
+            {
+                slideJumping = true;
+                movement.hasJumped = false;
+
+                if (slidingOnLeft)
+                {
+                    movement.rb.AddForce(new Vector2(wallJumpDirection.x, wallJumpDirection.y) * wallJumpForce, ForceMode2D.Impulse);
+                }
+                else if (slidingOnRight)
+                {
+                    movement.rb.AddForce(new Vector2(-wallJumpDirection.x, wallJumpDirection.y) * wallJumpForce, ForceMode2D.Impulse);
+                }
+            }
+        }
+    }
+    void ManageBools()
+    {
+        if (movement.isGrounded)
+        {
+            slideJumping = false;
+        }
+        if (sliding)
+        {
+            movement.hasJumped = true;
+        }
+        if (movement.isGrounded && !Input.GetKey(movement.right) && !Input.GetKey(movement.left))
+        {
+            movement.rb.velocity = new Vector2(0, movement.rb.velocity.y);
+        }
     }
 }

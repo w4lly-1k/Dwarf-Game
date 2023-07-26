@@ -685,6 +685,7 @@ MonoBehaviour:
   doubleJump: 1
   wallSlide: 1
   isGrounded: 0
+  hasJumped: 0
   rb: {fileID: 0}
 --- !u!61 &1080918631
 BoxCollider2D:
@@ -789,10 +790,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad439af1836ac247b6f66bdd0177df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slideGrav: 0.1
+  wallJumpDirection: {x: 0.5, y: 1}
+  slideGrav: 0.2
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
+  slideJumping: 0
+  wallJumpForce: 8
 --- !u!1 &1470382314
 GameObject:
   m_ObjectHideFlags: 0

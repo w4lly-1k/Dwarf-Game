@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    private WallSlide wallSlideCS;
+    
     [Header("Parameters")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
@@ -21,7 +23,7 @@ public class Movement : MonoBehaviour
     [SerializeField] public bool wallSlide;
 
     [HideInInspector] public bool isGrounded;
-    private bool hasJumped;
+    [HideInInspector] public bool hasJumped;
 
     [HideInInspector] public Rigidbody2D rb;
     private Transform groundCheck;
@@ -30,6 +32,7 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         groundCheck = GameObject.Find("GroundCheck").GetComponent<Transform>();
+        wallSlideCS = GetComponent<WallSlide>();
     }
 
     private void Update()
@@ -42,21 +45,24 @@ public class Movement : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (Input.GetKey(left))
+        if (!wallSlideCS.slideJumping)
         {
-            rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
-        }
-        if (Input.GetKey(right))
-        {
-            rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
-        }
-        if (Input.GetKeyUp(right))
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
-        if (Input.GetKeyUp(left))
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            if (Input.GetKey(left))
+            {
+                rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
+            }
+            if (Input.GetKey(right))
+            {
+                rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
+            }
+            if (Input.GetKeyUp(right))
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
+            if (Input.GetKeyUp(left))
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
         }
     }
     private void Jump()
