@@ -13,7 +13,7 @@ public class WallSlide : MonoBehaviour
 
     [SerializeField] private Vector2 wallJumpDirection;
 
-    [SerializeField] private float slideGrav = 0.3f;
+    private float slideGrav = 0.3f;
     [SerializeField] private LayerMask wallLayer;
 
     private bool wallLeft;
@@ -26,7 +26,7 @@ public class WallSlide : MonoBehaviour
 
     private bool hasStarted;
 
-    [SerializeField] private float wallJumpForce = 2;
+    private float wallJumpForce = 8;
     
     void Start()
     {
@@ -37,10 +37,13 @@ public class WallSlide : MonoBehaviour
 
     void Update()
     {
-        DetectWall();
-        ManageWallSlide();
-        SlideJump();
-        ManageBools();
+        if (movement.wallSlide)
+        {
+            DetectWall();
+            ManageWallSlide();
+            SlideJump();
+            ManageBools();
+        }
     }
 
     void DetectWall()
