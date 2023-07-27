@@ -681,7 +681,7 @@ MonoBehaviour:
   right: 100
   jump: 32
   timeSlow: 304
-  TP: 317
+  teleport: 324
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -815,6 +815,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeScaleMod: 0.1
   cooldown: 5
+  maxDuration: 3
 --- !u!1 &1470382314
 GameObject:
   m_ObjectHideFlags: 0

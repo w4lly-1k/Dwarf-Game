@@ -7,58 +7,91 @@ public class TimeSlowTP : MonoBehaviour
     private Camera cam;
     private Movement movement;
 
-    private bool canTP;
+    private bool timeSlowed;
+    private bool offCooldown;
 
     [SerializeField] private float timeScaleMod = 0.1f;
     [SerializeField] private float cooldown;
+    [SerializeField] private float maxDuration;
+
+    private float elapsedTime;
+    private float tpTime;
 
     private void Start()
     {
         cam = Camera.main;
         movement = GetComponent<Movement>();
-        canTP = false;
+        timeSlowed = false;
+        elapsedTime = cooldown;
     }
 
     private void Update()
     {
-        Debug.Log(new Vector2(cam.ScreenToWorldPoint(Input.mousePosition).x, cam.ScreenToWorldPoint(Input.mousePosition).y));
-        
         if (movement.timeSlowAndTeleport)
         {
             ManageInput();
 
-            if (Input.GetKeyDown(KeyCode.Mouse1) && canTP)
+            if (Input.GetKeyDown(movement.teleport) && timeSlowed)
             {
                 transform.position = new Vector2(cam.ScreenToWorldPoint(Input.mousePosition).x, cam.ScreenToWorldPoint(Input.mousePosition).y);
                 EndSlowTime();
             }
         }
+
+        if (elapsedTime >= cooldown)
+        {
+            offCooldown = true;
+            elapsedTime = cooldown;
+        }
+        else
+        {
+            offCooldown = false;
+        }
+
+        elapsedTime = Time.time - tpTime;
     }
 
     private void ManageInput()
     {
-        if (Input.GetKeyDown(movement.timeSlow))
+        if (offCooldown)
         {
-            StartSlowTime();
-        }
-        if (Input.GetKeyUp(movement.timeSlow))
-        {
-            if (canTP)
+            if (Input.GetKeyDown(movement.timeSlow))
             {
-                EndSlowTime();
+                StartSlowTime();
+            }
+            if (Input.GetKeyUp(movement.timeSlow))
+            {
+                if (timeSlowed)
+                {
+                    EndSlowTime();
+                }
             }
         }
     }
     
     private void StartSlowTime()
     {
-        Time.timeScale = Time.timeScale * timeScaleMod;
-        canTP = true;
+        Time.timeScale *= timeScaleMod;
+        timeSlowed = true;
+
+        StartCoroutine(EndAtMaxTime());
     }
 
     private void EndSlowTime()
     {
-        Time.timeScale = Time.timeScale / timeScaleMod;
-        canTP = false;
+        Time.timeScale /= timeScaleMod;
+        timeSlowed = false;
+
+        tpTime = Time.time;
+        elapsedTime = 0;
+    }
+
+    IEnumerator EndAtMaxTime()
+    {
+        yield return new WaitForSecondsRealtime(maxDuration);
+        if (timeSlowed)
+        {
+            EndSlowTime();
+        }
     }
 }

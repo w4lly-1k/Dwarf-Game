@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class GroundEnemy : MonoBehaviour
 {
-    [SerializeField] private int maxEnemyHP;
-    [SerializeField] private float viewDistance;
-    [SerializeField] private float moveSpeed;
+    private int maxHP = 10;
+    private float moveSpeed = 3;
 
+    private float viewDistance = 5;
     private Vector2 playerPos;
     private Vector2 playerDirection;
     private bool hasSeen;
@@ -18,18 +18,27 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.Find("Player").GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        if (playerDirection.x < 0)
+        if (new Vector2(transform.position.x - player.position.x, transform.position.y - player.position.y).magnitude <= viewDistance)
         {
-            MoveLeft();
+            hasSeen = true;
         }
-        else if (playerDirection.x > 0)
+
+        if (hasSeen)
         {
-            MoveRight();
+            if (playerDirection.x < 0)
+            {
+                MoveLeft();
+            }
+            else if (playerDirection.x > 0)
+            {
+                MoveRight();
+            }
         }
 
         if (player != null)
@@ -40,26 +49,12 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            hasSeen = true;
-            player = collision.GetComponent<Transform>();
-
-        }
-    }
-
-
-    private void MoveLeft() 
+    private void MoveLeft()
     {
         rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
     }
-
-
     private void MoveRight()
     {
         rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
     }
-
 }

@@ -11,19 +11,19 @@ public class Movement : MonoBehaviour
     [SerializeField] private float jumpForce;
 
     [Header("Keybinds")]
-    [SerializeField] public KeyCode left = KeyCode.A;
-    [SerializeField] public KeyCode right = KeyCode.D;
-    [SerializeField] public KeyCode jump = KeyCode.Space;
-    [SerializeField] public KeyCode timeSlow = KeyCode.LeftShift;
-    [SerializeField] public KeyCode TP = KeyCode.Mouse1;
+    public KeyCode left = KeyCode.A;
+    public KeyCode right = KeyCode.D;
+    public KeyCode jump = KeyCode.Space;
+    public KeyCode timeSlow = KeyCode.LeftShift;
+    public KeyCode teleport = KeyCode.Mouse1;
 
     [Header("Layers")]
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask groundIgnore;
 
     [Header("Abilities")]
-    [SerializeField] public bool doubleJump;
-    [SerializeField] public bool wallSlide;
-    [SerializeField] public bool timeSlowAndTeleport;
+    public bool doubleJump;
+    public bool wallSlide;
+    public bool timeSlowAndTeleport;
 
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public bool hasJumped;
@@ -40,7 +40,7 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.1f, ~playerLayer);
+        isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.1f, ~groundIgnore);
         
         MovePlayer();
         Jump();
