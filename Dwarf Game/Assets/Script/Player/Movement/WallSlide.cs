@@ -5,7 +5,7 @@ using UnityEngine;
 public class WallSlide : MonoBehaviour
 {
     //DON'T TOUCH, IT WORKS
-    
+
     private Movement movement;
 
     private Transform leftWallCheck;
@@ -13,7 +13,7 @@ public class WallSlide : MonoBehaviour
 
     [SerializeField] private Vector2 wallJumpDirection;
 
-    private float slideGrav = 0.3f;
+    [SerializeField] private float slideGrav = 0.3f;
     [SerializeField] private LayerMask wallLayer;
 
     private bool wallLeft;
@@ -26,7 +26,7 @@ public class WallSlide : MonoBehaviour
 
     private bool hasStarted;
 
-    private float wallJumpForce = 11;
+    [SerializeField] private float wallJumpForce = 9;
     
     void Start()
     {
@@ -122,6 +122,7 @@ public class WallSlide : MonoBehaviour
             {
                 slideJumping = true;
                 movement.hasJumped = false;
+                movement.rb.velocity = Vector2.zero;
 
                 if (slidingOnLeft)
                 {

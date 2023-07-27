@@ -14,6 +14,8 @@ public class Movement : MonoBehaviour
     [SerializeField] public KeyCode left = KeyCode.A;
     [SerializeField] public KeyCode right = KeyCode.D;
     [SerializeField] public KeyCode jump = KeyCode.Space;
+    [SerializeField] public KeyCode timeSlow = KeyCode.LeftShift;
+    [SerializeField] public KeyCode TP = KeyCode.Mouse1;
 
     [Header("Layers")]
     [SerializeField] private LayerMask playerLayer;
@@ -21,6 +23,7 @@ public class Movement : MonoBehaviour
     [Header("Abilities")]
     [SerializeField] public bool doubleJump;
     [SerializeField] public bool wallSlide;
+    [SerializeField] public bool timeSlowAndTeleport;
 
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public bool hasJumped;

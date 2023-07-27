@@ -305,7 +305,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6.9495373
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -655,6 +655,7 @@ GameObject:
   - component: {fileID: 1080918631}
   - component: {fileID: 1080918630}
   - component: {fileID: 1080918634}
+  - component: {fileID: 1080918635}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -679,11 +680,14 @@ MonoBehaviour:
   left: 97
   right: 100
   jump: 32
+  timeSlow: 304
+  TP: 317
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
   doubleJump: 1
   wallSlide: 1
+  timeSlowAndTeleport: 1
   isGrounded: 0
   hasJumped: 0
   rb: {fileID: 0}
@@ -768,7 +772,7 @@ Transform:
   m_GameObject: {fileID: 1080918629}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.08, y: -3.13, z: 0}
+  m_LocalPosition: {x: -9, y: -3.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -791,10 +795,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallJumpDirection: {x: 0.5, y: 1}
+  slideGrav: 0.3
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
   slideJumping: 0
+  wallJumpForce: 9
+--- !u!114 &1080918635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080918629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f9d2e3ba75977429da15dadc09c427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeScaleMod: 0.1
+  cooldown: 5
 --- !u!1 &1470382314
 GameObject:
   m_ObjectHideFlags: 0

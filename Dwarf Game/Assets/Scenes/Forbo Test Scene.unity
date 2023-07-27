@@ -169,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 383556658}
   - component: {fileID: 383556659}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -789,7 +789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 799235451}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -956,7 +956,7 @@ GameObject:
   - component: {fileID: 1080918634}
   - component: {fileID: 1080918635}
   - component: {fileID: 1080918636}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -980,9 +980,9 @@ MonoBehaviour:
   left: 97
   right: 100
   jump: 32
-  groundLayer:
+  playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 256
   doubleJump: 1
   wallSlide: 1
   isGrounded: 0
@@ -1092,10 +1092,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallJumpDirection: {x: 0.5, y: 1}
+  slideGrav: 0.3
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
   slideJumping: 0
+  wallJumpForce: 9
 --- !u!114 &1080918635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,7 +1379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1470520300}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftWallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1622,7 +1624,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2002632710}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightWallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
