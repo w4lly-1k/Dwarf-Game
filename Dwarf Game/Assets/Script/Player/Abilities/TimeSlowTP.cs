@@ -27,28 +27,7 @@ public class TimeSlowTP : MonoBehaviour
 
     private void Update()
     {
-        if (movement.timeSlowAndTeleport)
-        {
-            ManageInput();
-
-            if (Input.GetKeyDown(movement.teleport) && timeSlowed)
-            {
-                transform.position = new Vector2(cam.ScreenToWorldPoint(Input.mousePosition).x, cam.ScreenToWorldPoint(Input.mousePosition).y);
-                EndSlowTime();
-            }
-        }
-
-        if (elapsedTime >= cooldown)
-        {
-            offCooldown = true;
-            elapsedTime = cooldown;
-        }
-        else
-        {
-            offCooldown = false;
-        }
-
-        elapsedTime = Time.time - tpTime;
+        Teleport();
     }
 
     private void ManageInput()
@@ -93,5 +72,33 @@ public class TimeSlowTP : MonoBehaviour
         {
             EndSlowTime();
         }
+    }
+
+
+
+    private void Teleport()
+    {
+        if (movement.timeSlowAndTeleport)
+        {
+            ManageInput();
+
+            if (Input.GetKeyDown(movement.teleport) && timeSlowed)
+            {
+                transform.position = new Vector2(cam.ScreenToWorldPoint(Input.mousePosition).x, cam.ScreenToWorldPoint(Input.mousePosition).y);
+                EndSlowTime();
+            }
+        }
+
+        if (elapsedTime >= cooldown)
+        {
+            offCooldown = true;
+            elapsedTime = cooldown;
+        }
+        else
+        {
+            offCooldown = false;
+        }
+
+        elapsedTime = Time.time - tpTime;
     }
 }

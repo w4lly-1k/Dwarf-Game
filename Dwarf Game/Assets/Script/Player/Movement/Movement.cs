@@ -40,8 +40,7 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.1f, ~groundIgnore);
-        
+        GroundCheck();        
         MovePlayer();
         Jump();
     }
@@ -95,5 +94,11 @@ public class Movement : MonoBehaviour
         {
             hasJumped = false;
         }
+    }
+
+
+    private void GroundCheck()
+    {
+        isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.1f, ~groundIgnore);
     }
 }

@@ -8,7 +8,8 @@ public class Health : MonoBehaviour
     private GroundEnemy enemy;
 
     [SerializeField] private float maxHealth;
-    private float currentHealth;
+    
+    public float currentHealth;
     
 
     void Start()
@@ -19,7 +20,6 @@ public class Health : MonoBehaviour
     void Update()
     {
         Die();
-        Debug.Log(currentHealth);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
