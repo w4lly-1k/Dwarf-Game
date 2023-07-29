@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GroundEnemy : MonoBehaviour
 {
-    private int maxHP = 10;
     private float moveSpeed = 3;
 
     private float viewDistance = 5;
@@ -12,6 +11,7 @@ public class GroundEnemy : MonoBehaviour
     private Vector2 playerDirection;
     private bool hasSeen;
     private Transform player;
+    private Player playerData;
     private Rigidbody2D rb;
 
     public float damage;
@@ -19,6 +19,7 @@ public class GroundEnemy : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Transform>();
+        playerData = GameObject.Find("Player").GetComponent<Player>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -45,6 +46,14 @@ public class GroundEnemy : MonoBehaviour
         {
             playerPos = player.transform.position;
             playerDirection = (player.transform.position - transform.position).normalized;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            playerData.TakeDamage(damage);
         }
     }
 

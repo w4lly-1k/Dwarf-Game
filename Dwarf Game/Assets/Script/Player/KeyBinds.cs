@@ -10,4 +10,5 @@ public class KeyBinds : MonoBehaviour
     public KeyCode jump = KeyCode.Space;
     public KeyCode timeSlow = KeyCode.LeftShift;
     public KeyCode teleport = KeyCode.Mouse1;
+    public KeyCode scaleCloak = KeyCode.Mouse2;
 }

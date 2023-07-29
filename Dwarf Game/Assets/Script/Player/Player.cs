@@ -5,14 +5,17 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private GroundEnemy enemy;
+    private ScaleCloak scaleCloak;
 
     [SerializeField] private float maxHealth;
+
     private float currentHealth;
 
 
     void Start()
     {
         currentHealth = maxHealth;
+        scaleCloak = GetComponent<ScaleCloak>();
     }
 
     void Update()
@@ -20,22 +23,12 @@ public class Player : MonoBehaviour
         Die();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void TakeDamage(float damage)
     {
-        if (collision.tag == "Enemy")
+        if (!scaleCloak.invulnerable)
         {
-            enemy = collision.GetComponentInParent<GroundEnemy>();
-
-            if (enemy != null)
-            {
-                TakeDamage(enemy.damage);
-            }
+            currentHealth -= damage;
         }
-    }
-
-    private void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
     }
 
     private void Die()
@@ -44,5 +37,10 @@ public class Player : MonoBehaviour
         {
             UnityEditor.EditorApplication.isPlaying = false;
         }
+    }
+
+    public float GetHealth()
+    {
+        return currentHealth;
     }
 }

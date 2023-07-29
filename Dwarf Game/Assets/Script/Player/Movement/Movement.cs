@@ -5,6 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     private WallSlide wallSlideCS;
+    private ScaleCloak scaleCloakCS;
     private KeyBinds keybinds;
     
     [Header("Parameters")]
@@ -18,9 +19,11 @@ public class Movement : MonoBehaviour
     public bool doubleJump;
     public bool wallSlide;
     public bool timeSlowAndTeleport;
+    public bool scaleCloak;
 
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public bool hasJumped;
+    [HideInInspector] public bool canMove = true;
 
     [HideInInspector] public Rigidbody2D rb;
     private Transform groundCheck;
@@ -31,6 +34,7 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         groundCheck = GameObject.Find("GroundCheck").GetComponent<Transform>();
         wallSlideCS = GetComponent<WallSlide>();
+        scaleCloakCS = GetComponent<ScaleCloak>();
     }
 
     private void Update()
@@ -42,46 +46,52 @@ public class Movement : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (!wallSlideCS.slideJumping)
+        if (!scaleCloakCS.invulnerable)
         {
-            if (Input.GetKey(keybinds.left))
+            if (!wallSlideCS.slideJumping)
             {
-                rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
-            }
-            if (Input.GetKey(keybinds.right))
-            {
-                rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
-            }
-            if (Input.GetKeyUp(keybinds.right))
-            {
-                rb.velocity = new Vector2(0, rb.velocity.y);
-            }
-            if (Input.GetKeyUp(keybinds.left))
-            {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                if (Input.GetKey(keybinds.left))
+                {
+                    rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
+                }
+                if (Input.GetKey(keybinds.right))
+                {
+                    rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
+                }
+                if (Input.GetKeyUp(keybinds.right))
+                {
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
+                if (Input.GetKeyUp(keybinds.left))
+                {
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
             }
         }
     }
     private void Jump()
     {
-        if (doubleJump)
+        if (!scaleCloakCS.invulnerable)
         {
-            if (Input.GetKeyDown(keybinds.jump) && isGrounded)
+            if (doubleJump)
             {
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                if (Input.GetKeyDown(keybinds.jump) && isGrounded)
+                {
+                    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                }
+                else if (Input.GetKeyDown(keybinds.jump) && !isGrounded && !hasJumped)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, 0);
+                    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                    hasJumped = true;
+                }
             }
-            else if (Input.GetKeyDown(keybinds.jump) && !isGrounded && !hasJumped)
+            else
             {
-                rb.velocity = new Vector2(rb.velocity.x, 0);
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                hasJumped = true;
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(keybinds.jump) && isGrounded)
-            {
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                if (Input.GetKeyDown(keybinds.jump) && isGrounded)
+                {
+                    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                }
             }
         }
 
