@@ -57,7 +57,6 @@ public class GroundEnemy : MonoBehaviour
         }
     }
 
-
     private void MoveLeft()
     {
         rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);

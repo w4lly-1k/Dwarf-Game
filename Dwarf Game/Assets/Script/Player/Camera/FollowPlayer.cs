@@ -14,10 +14,6 @@ public class FollowPlayer : MonoBehaviour
         TrackPlayer();
     }
 
-
-
-
-
     private void TrackPlayer()
     {
         Vector3 newPos = new Vector3(target.position.x, target.position.y + yOffset, -10f);
