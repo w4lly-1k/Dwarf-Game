@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Player : MonoBehaviour
 {
     private GroundEnemy enemy;
 
     [SerializeField] private float maxHealth;
-    
-    public float currentHealth;
-    
+    private float currentHealth;
+
 
     void Start()
     {
@@ -46,6 +44,5 @@ public class Health : MonoBehaviour
         {
             UnityEditor.EditorApplication.isPlaying = false;
         }
-
     }
 }

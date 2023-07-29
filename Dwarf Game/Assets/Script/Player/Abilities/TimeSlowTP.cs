@@ -6,6 +6,7 @@ public class TimeSlowTP : MonoBehaviour
 {
     private Camera cam;
     private Movement movement;
+    private KeyBinds keybinds;
 
     private bool timeSlowed;
     private bool offCooldown;
@@ -21,6 +22,7 @@ public class TimeSlowTP : MonoBehaviour
     {
         cam = Camera.main;
         movement = GetComponent<Movement>();
+        keybinds = GetComponent<KeyBinds>();
         timeSlowed = false;
         elapsedTime = cooldown;
     }
@@ -34,11 +36,11 @@ public class TimeSlowTP : MonoBehaviour
     {
         if (offCooldown)
         {
-            if (Input.GetKeyDown(movement.timeSlow))
+            if (Input.GetKeyDown(keybinds.timeSlow))
             {
                 StartSlowTime();
             }
-            if (Input.GetKeyUp(movement.timeSlow))
+            if (Input.GetKeyUp(keybinds.timeSlow))
             {
                 if (timeSlowed)
                 {
@@ -82,7 +84,7 @@ public class TimeSlowTP : MonoBehaviour
         {
             ManageInput();
 
-            if (Input.GetKeyDown(movement.teleport) && timeSlowed)
+            if (Input.GetKeyDown(keybinds.teleport) && timeSlowed)
             {
                 transform.position = new Vector2(cam.ScreenToWorldPoint(Input.mousePosition).x, cam.ScreenToWorldPoint(Input.mousePosition).y);
                 EndSlowTime();

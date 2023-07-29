@@ -5,17 +5,11 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     private WallSlide wallSlideCS;
+    private KeyBinds keybinds;
     
     [Header("Parameters")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
-
-    [Header("Keybinds")]
-    public KeyCode left = KeyCode.A;
-    public KeyCode right = KeyCode.D;
-    public KeyCode jump = KeyCode.Space;
-    public KeyCode timeSlow = KeyCode.LeftShift;
-    public KeyCode teleport = KeyCode.Mouse1;
 
     [Header("Layers")]
     [SerializeField] private LayerMask groundIgnore;
@@ -33,6 +27,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
+        keybinds = GetComponent<KeyBinds>();
         rb = GetComponent<Rigidbody2D>();
         groundCheck = GameObject.Find("GroundCheck").GetComponent<Transform>();
         wallSlideCS = GetComponent<WallSlide>();
@@ -49,19 +44,19 @@ public class Movement : MonoBehaviour
     {
         if (!wallSlideCS.slideJumping)
         {
-            if (Input.GetKey(left))
+            if (Input.GetKey(keybinds.left))
             {
                 rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
             }
-            if (Input.GetKey(right))
+            if (Input.GetKey(keybinds.right))
             {
                 rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
             }
-            if (Input.GetKeyUp(right))
+            if (Input.GetKeyUp(keybinds.right))
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
-            if (Input.GetKeyUp(left))
+            if (Input.GetKeyUp(keybinds.left))
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
@@ -71,11 +66,11 @@ public class Movement : MonoBehaviour
     {
         if (doubleJump)
         {
-            if (Input.GetKeyDown(jump) && isGrounded)
+            if (Input.GetKeyDown(keybinds.jump) && isGrounded)
             {
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
-            else if (Input.GetKeyDown(jump) && !isGrounded && !hasJumped)
+            else if (Input.GetKeyDown(keybinds.jump) && !isGrounded && !hasJumped)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -84,7 +79,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(jump) && isGrounded)
+            if (Input.GetKeyDown(keybinds.jump) && isGrounded)
             {
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Keybinds : MonoBehaviour
+public class KeyBinds : MonoBehaviour
 {
     [Header("Keybinds")]
     public KeyCode left = KeyCode.A;

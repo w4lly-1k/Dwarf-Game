@@ -821,10 +821,11 @@ GameObject:
   - component: {fileID: 1080918633}
   - component: {fileID: 1080918632}
   - component: {fileID: 1080918631}
+  - component: {fileID: 1080918637}
+  - component: {fileID: 1080918636}
   - component: {fileID: 1080918630}
   - component: {fileID: 1080918634}
   - component: {fileID: 1080918635}
-  - component: {fileID: 1080918636}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -846,11 +847,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 8
-  left: 97
-  right: 100
-  jump: 32
-  timeSlow: 304
-  teleport: 324
   groundIgnore:
     serializedVersion: 2
     m_Bits: 256
@@ -994,10 +990,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1080918629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb3ef70ec6ccfe0478d479c18ce6e138, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f92bcc34a97bdf4cbe1721d3e00fc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+--- !u!114 &1080918637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080918629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dcc4c7a8e51bde4fba9d114892794e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  left: 97
+  right: 100
+  jump: 32
+  timeSlow: 304
+  teleport: 324
 --- !u!1 &1470382314
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class WallSlide : MonoBehaviour
     //DON'T TOUCH, IT WORKS
 
     private Movement movement;
+    private KeyBinds keybinds;
 
     private Transform leftWallCheck;
     private Transform rightWallCheck;
@@ -30,6 +31,7 @@ public class WallSlide : MonoBehaviour
     
     void Start()
     {
+        keybinds = GetComponent<KeyBinds>();
         movement = GetComponent<Movement>();
         leftWallCheck = GameObject.Find("LeftWallCheck").GetComponent<Transform>();
         rightWallCheck = GameObject.Find("RightWallCheck").GetComponent<Transform>();
@@ -66,11 +68,11 @@ public class WallSlide : MonoBehaviour
     {
         if (!movement.isGrounded)
         {
-            if (wallLeft && Input.GetKey(movement.left))
+            if (wallLeft && Input.GetKey(keybinds.left))
             {
                 StartSlide(false);
             }
-            else if (wallRight && Input.GetKey(movement.right))
+            else if (wallRight && Input.GetKey(keybinds.right))
             {
                 StartSlide(true);
             }
@@ -118,7 +120,7 @@ public class WallSlide : MonoBehaviour
     {
         if (sliding)
         {
-            if (Input.GetKeyDown(movement.jump))
+            if (Input.GetKeyDown(keybinds.jump))
             {
                 slideJumping = true;
                 movement.hasJumped = false;
@@ -145,7 +147,7 @@ public class WallSlide : MonoBehaviour
         {
             movement.hasJumped = true;
         }
-        if (movement.isGrounded && !Input.GetKey(movement.right) && !Input.GetKey(movement.left))
+        if (movement.isGrounded && !Input.GetKey(keybinds.right) && !Input.GetKey(keybinds.left))
         {
             movement.rb.velocity = new Vector2(0, movement.rb.velocity.y);
         }
