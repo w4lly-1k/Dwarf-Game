@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour
     private KeyBinds keybinds;
     
     [Header("Parameters")]
-    [SerializeField] private float moveSpeed;
+    public float moveSpeed;
     [SerializeField] private float jumpForce;
 
     [Header("Layers")]

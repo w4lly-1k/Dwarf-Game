@@ -76,8 +76,6 @@ public class TimeSlowTP : MonoBehaviour
         }
     }
 
-
-
     private void Teleport()
     {
         if (movement.timeSlowAndTeleport)
